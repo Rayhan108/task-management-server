@@ -51,6 +51,25 @@ app.get("/updateTask/:id", async (req, res) => {
         res.send(result);
       });
 
+         // update task
+    app.patch("/taskUpdate/:id", async (req, res) => {
+        const id = req.params.id;
+        const updateTask = req.body;
+        console.log(updateTask);
+        
+        const filter = { _id: new ObjectId(id) };
+        const option = { upsert: true };
+  
+        const updateDoc = {
+          $set: {
+            status: updateTask.status
+           
+          },
+        };
+        const result = await taskCollection.updateOne(filter, updateDoc, option);
+        res.send(result);
+      });
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
